@@ -1,0 +1,65 @@
+{
+  "name": "webcodeblock",
+  "version": "1.0.6",
+  "type": "module",
+  "description": "Un composant React élégant pour afficher des blocs de code stylisés façon VS Code",
+  "main": "dist/web-code-block.cjs.js",
+  "module": "dist/web-code-block.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/web-code-block.es.js",
+      "require": "./dist/web-code-block.cjs.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "publish:npm": "npm publish"
+  },
+  "keywords": [
+    "react",
+    "code-block",
+    "codeframe",
+    "syntax-highlighting",
+    "vscode",
+    "prism",
+    "typescript",
+    "component"
+  ],
+  "author": "0xRynal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xRynal/WebCodeBlock.git"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "prismjs": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/prismjs": "^1.26.3",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vite-plugin-dts": "^3.6.4"
+  }
+}

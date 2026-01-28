@@ -1,0 +1,544 @@
+/* stylelint-disable at-rule-no-unknown */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
+
+/* Variables de couleurs pour les thèmes */
+:root {
+  /* VS Dark Theme */
+  --wcb-vs-dark-bg: #1e1e1e;
+  --wcb-vs-dark-header: #2d2d30;
+  --wcb-vs-dark-text: #d4d4d4;
+  --wcb-vs-dark-border: #3e3e42;
+  
+  /* Light Theme */
+  --wcb-light-bg: #ffffff;
+  --wcb-light-header: #f3f3f3;
+  --wcb-light-text: #333333;
+  --wcb-light-border: #e0e0e0;
+  
+  /* Dracula Theme */
+  --wcb-dracula-bg: #282a36;
+  --wcb-dracula-header: #44475a;
+  --wcb-dracula-text: #f8f8f2;
+  --wcb-dracula-border: #6272a4;
+  
+  /* Nord Theme */
+  --wcb-nord-bg: #2e3440;
+  --wcb-nord-header: #3b4252;
+  --wcb-nord-text: #eceff4;
+  --wcb-nord-border: #4c566a;
+}
+
+/* Styles de base pour le CodeBlock */
+.web-code-block {
+  @apply rounded-lg overflow-hidden shadow-2xl;
+  transition: all 0.3s ease;
+}
+
+/* Mode debug pour le conteneur principal - retiré */
+
+.web-code-block:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Header avec les boutons macOS */
+.web-code-block-header {
+  @apply flex items-center px-4 py-3 relative;
+}
+
+.web-code-block-dots {
+  @apply flex gap-2 absolute left-4;
+}
+
+.web-code-block-dot {
+  @apply w-3 h-3 rounded-full;
+  transition: opacity 0.2s;
+}
+
+.web-code-block-dot:hover {
+  @apply opacity-80;
+}
+
+.web-code-block-filename {
+  @apply flex-1 text-center text-sm font-medium;
+}
+
+
+/* Zone de code */
+.web-code-block-content {
+  @apply relative;
+  min-height: 200px;
+  z-index: 1;
+}
+
+/* Numéros de ligne */
+.web-code-block-line-numbers {
+  @apply absolute left-0 top-0 select-none pointer-events-none;
+  @apply flex flex-col;
+  padding: 1rem 0.5rem 1rem 1rem;
+  line-height: 1.5;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  color: #6b7280;
+  z-index: 10;
+  margin: 0;
+  height: 100%;
+  width: 3rem;
+  text-align: right;
+}
+
+
+
+/* Coloration syntaxique par langage - Couleurs VS Code exactes */
+/* TypeScript/JavaScript */
+.language-typescript .token.keyword,
+.language-javascript .token.keyword {
+  color: #569cd6; /* bleu - mots-clés (const, let, if, etc.) */
+}
+
+.language-typescript .token.string,
+.language-javascript .token.string {
+  color: #ce9178; /* orange - chaînes */
+}
+
+.language-typescript .token.comment,
+.language-javascript .token.comment {
+  color: #6a9955; /* vert - commentaires */
+  font-style: italic;
+}
+
+.language-typescript .token.number,
+.language-javascript .token.number {
+  color: #b5cea8; /* vert clair - nombres */
+}
+
+.language-typescript .token.function,
+.language-javascript .token.function {
+  color: #dcdcaa; /* jaune - fonctions */
+}
+
+.language-typescript .token.class-name,
+.language-javascript .token.class-name {
+  color: #4ec9b0; /* cyan - classes (React, FC, etc.) */
+}
+
+.language-typescript .token.operator,
+.language-javascript .token.operator {
+  color: #d4d4d4; /* blanc - opérateurs */
+}
+
+.language-typescript .token.punctuation,
+.language-javascript .token.punctuation {
+  color: #d4d4d4; /* blanc - ponctuation */
+}
+
+/* JSX spécifique */
+.language-jsx .token.tag {
+  color: #569cd6; /* bleu - balises JSX */
+}
+
+.language-jsx .token.attr-name {
+  color: #92c5f8; /* bleu clair - attributs */
+}
+
+.language-jsx .token.string {
+  color: #ce9178; /* orange - chaînes */
+}
+
+.language-jsx .token.keyword {
+  color: #569cd6; /* bleu - mots-clés */
+}
+
+.language-jsx .token.function {
+  color: #dcdcaa; /* jaune - fonctions */
+}
+
+.language-jsx .token.class-name {
+  color: #4ec9b0; /* cyan - classes */
+}
+
+.language-jsx .token.variable {
+  color: #9cdcfe; /* bleu très clair - variables */
+}
+
+.language-jsx .token.comment {
+  color: #6a9955; /* vert - commentaires */
+  font-style: italic;
+}
+
+.language-jsx .token.number {
+  color: #b5cea8; /* vert clair - nombres */
+}
+
+/* Variables et identifiants */
+.language-typescript .token.variable,
+.language-javascript .token.variable,
+.language-jsx .token.variable {
+  color: #9cdcfe; /* bleu très clair - variables */
+}
+
+/* Constantes */
+.language-typescript .token.constant,
+.language-javascript .token.constant {
+  color: #4fc1ff; /* bleu - constantes */
+}
+
+/* Texte normal */
+.language-typescript .token.text,
+.language-javascript .token.text,
+.language-jsx .token.text {
+  color: inherit; /* hérite de la couleur du parent */
+}
+
+/* Styles génériques pour tous les langages */
+.language-html .token.keyword,
+.language-css .token.keyword,
+.language-python .token.keyword,
+.language-sql .token.keyword,
+.language-bash .token.keyword,
+.language-json .token.keyword,
+.language-yaml .token.keyword,
+.language-markdown .token.keyword {
+  color: #569cd6; /* bleu - mots-clés */
+}
+
+.language-html .token.string,
+.language-css .token.string,
+.language-python .token.string,
+.language-sql .token.string,
+.language-bash .token.string,
+.language-json .token.string,
+.language-yaml .token.string,
+.language-markdown .token.string {
+  color: #ce9178; /* orange - chaînes */
+}
+
+.language-html .token.comment,
+.language-css .token.comment,
+.language-python .token.comment,
+.language-sql .token.comment,
+.language-bash .token.comment,
+.language-json .token.comment,
+.language-yaml .token.comment,
+.language-markdown .token.comment {
+  color: #6a9955; /* vert - commentaires */
+  font-style: italic;
+}
+
+.language-html .token.number,
+.language-css .token.number,
+.language-python .token.number,
+.language-sql .token.number,
+.language-bash .token.number,
+.language-json .token.number,
+.language-yaml .token.number,
+.language-markdown .token.number {
+  color: #b5cea8; /* vert clair - nombres */
+}
+
+.language-html .token.text,
+.language-css .token.text,
+.language-python .token.text,
+.language-sql .token.text,
+.language-bash .token.text,
+.language-json .token.text,
+.language-yaml .token.text,
+.language-markdown .token.text {
+  color: inherit; /* hérite de la couleur du parent */
+}
+
+/* Styles spécifiques par langage */
+
+/* HTML */
+.language-html .token.tag {
+  color: #569cd6; /* bleu - balises HTML */
+}
+
+.language-html .token.attr-name {
+  color: #92c5f8; /* bleu clair - attributs HTML */
+}
+
+/* CSS */
+.language-css .token.selector {
+  color: #d7ba7d; /* jaune - sélecteurs CSS */
+}
+
+.language-css .token.property {
+  color: #9cdcfe; /* bleu très clair - propriétés CSS */
+}
+
+/* JSON */
+.language-json .token.property {
+  color: #9cdcfe; /* bleu très clair - clés JSON */
+}
+
+/* YAML */
+.language-yaml .token.property {
+  color: #9cdcfe; /* bleu très clair - clés YAML */
+}
+
+/* Markdown */
+.language-markdown .token.header {
+  color: #569cd6; /* bleu - headers Markdown */
+}
+
+.language-markdown .token.link {
+  color: #569cd6; /* bleu - liens Markdown */
+}
+
+.language-markdown .token.code {
+  color: #ce9178; /* orange - code inline Markdown */
+}
+
+/* Bash */
+.language-bash .token.variable {
+  color: #9cdcfe; /* bleu très clair - variables Bash */
+}
+
+/* SQL */
+.language-sql .token.identifier {
+  color: #9cdcfe; /* bleu très clair - identifiants SQL */
+}
+
+.web-code-block-line-number {
+  @apply flex items-center justify-center;
+  text-align: center;
+  user-select: none;
+  opacity: 0.6;
+  color: inherit;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+
+.web-code-block-code.with-line-numbers {
+  @apply pl-20;
+  line-height: 1.5rem;
+  position: relative;
+  z-index: 0;
+}
+
+/* Amélioration de l'alignement pour les lignes vides */
+.web-code-block-line-number:empty::before {
+  content: " ";
+}
+
+/* Styles spécifiques pour l'alignement parfait */
+.web-code-block-code {
+  @apply p-4 overflow-x-auto font-mono text-sm;
+  tab-size: 2;
+  white-space: pre;
+  line-height: 1.5rem;
+}
+
+/* Bouton copier */
+.web-code-block-copy-button {
+  @apply absolute top-2 right-2 px-3 py-1.5 rounded text-xs font-medium;
+  @apply transition-all duration-200;
+  @apply opacity-0 group-hover:opacity-100;
+  z-index: 20;
+}
+
+.web-code-block-copy-button:hover {
+  @apply scale-105;
+}
+
+.web-code-block-copy-button:active {
+  @apply scale-95;
+}
+
+/* Animation typing */
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  animation: typing-cursor 1s infinite;
+  position: relative;
+  z-index: 30;
+  vertical-align: baseline;
+}
+
+/* Thèmes spécifiques */
+
+/* VS Dark */
+.theme-vs-dark {
+  background-color: var(--wcb-vs-dark-bg);
+}
+
+.theme-vs-dark .web-code-block-header {
+  background-color: var(--wcb-vs-dark-header);
+  border-bottom: 1px solid var(--wcb-vs-dark-border);
+}
+
+.theme-vs-dark .web-code-block-filename {
+  color: var(--wcb-vs-dark-text);
+}
+
+.theme-vs-dark .web-code-block-code {
+  color: var(--wcb-vs-dark-text);
+  background-color: var(--wcb-vs-dark-bg);
+}
+
+.theme-vs-dark .web-code-block-copy-button {
+  background-color: #3e3e42;
+  color: var(--wcb-vs-dark-text);
+}
+
+.theme-vs-dark .web-code-block-copy-button:hover {
+  background-color: #4e4e52;
+}
+
+.theme-vs-dark .web-code-block-line-number {
+  color: var(--wcb-vs-dark-text);
+  opacity: 0.5;
+}
+
+/* Light */
+.theme-light {
+  background-color: var(--wcb-light-bg);
+}
+
+.theme-light .web-code-block-header {
+  background-color: var(--wcb-light-header);
+  border-bottom: 1px solid var(--wcb-light-border);
+}
+
+.theme-light .web-code-block-filename {
+  color: var(--wcb-light-text);
+}
+
+.theme-light .web-code-block-code {
+  color: var(--wcb-light-text);
+  background-color: var(--wcb-light-bg);
+}
+
+.theme-light .web-code-block-copy-button {
+  background-color: #e0e0e0;
+  color: var(--wcb-light-text);
+}
+
+.theme-light .web-code-block-copy-button:hover {
+  background-color: #d0d0d0;
+}
+
+.theme-light .web-code-block-line-number {
+  color: var(--wcb-light-text);
+  opacity: 0.5;
+}
+
+/* Dracula */
+.theme-dracula {
+  background-color: var(--wcb-dracula-bg);
+}
+
+.theme-dracula .web-code-block-header {
+  background-color: var(--wcb-dracula-header);
+  border-bottom: 1px solid var(--wcb-dracula-border);
+}
+
+.theme-dracula .web-code-block-filename {
+  color: var(--wcb-dracula-text);
+}
+
+.theme-dracula .web-code-block-code {
+  color: var(--wcb-dracula-text);
+}
+
+.theme-dracula .web-code-block-copy-button {
+  background-color: #6272a4;
+  color: var(--wcb-dracula-text);
+}
+
+.theme-dracula .web-code-block-copy-button:hover {
+  background-color: #7282b4;
+}
+
+.theme-dracula .web-code-block-line-number {
+  color: var(--wcb-dracula-text);
+  opacity: 0.5;
+}
+
+/* Nord */
+.theme-nord {
+  background-color: var(--wcb-nord-bg);
+}
+
+.theme-nord .web-code-block-header {
+  background-color: var(--wcb-nord-header);
+  border-bottom: 1px solid var(--wcb-nord-border);
+}
+
+.theme-nord .web-code-block-filename {
+  color: var(--wcb-nord-text);
+}
+
+.theme-nord .web-code-block-code {
+  color: var(--wcb-nord-text);
+}
+
+.theme-nord .web-code-block-copy-button {
+  background-color: #4c566a;
+  color: var(--wcb-nord-text);
+}
+
+.theme-nord .web-code-block-copy-button:hover {
+  background-color: #5c667a;
+}
+
+.theme-nord .web-code-block-line-number {
+  color: var(--wcb-nord-text);
+  opacity: 0.5;
+}
+
+/* Scrollbar personnalisée */
+.web-code-block-code::-webkit-scrollbar {
+  height: 8px;
+}
+
+.web-code-block-code::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.web-code-block-code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.web-code-block-code::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Styles de base pour le body de la page de test */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Styles pour les boutons de thème */
+.theme-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+}
+
+.theme-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
