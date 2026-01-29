@@ -17,11 +17,29 @@ const ATTR = {
   maxHeight: 'max-height',
   exportImageButton: 'export-image-button',
   highlightLines: 'highlight-lines',
+  size: 'size',
+  codeFolding: 'code-folding',
+  fullscreenButton: 'fullscreen-button',
+  title: 'title',
+  description: 'description',
+  activeLine: 'active-line',
+  startLineNumber: 'start-line-number',
+  showHeader: 'show-header',
+  loading: 'loading',
+  fontFamily: 'font-family',
+  backgroundImage: 'background-image',
+  backgroundImageOverlay: 'background-image-overlay',
 } as const;
 
 function parseBool(val: string | null): boolean | undefined {
   if (val == null) return undefined;
   return val === 'true' || val === '';
+}
+
+function parseNum(val: string | null): number | undefined {
+  if (val == null || val === '') return undefined;
+  const n = Number(val);
+  return Number.isNaN(n) ? undefined : n;
 }
 
 function getProps(el: HTMLElement): CodeBlockProps {
@@ -33,6 +51,8 @@ function getProps(el: HTMLElement): CodeBlockProps {
       ? highlightLinesRaw
       : (highlightLinesRaw.split(/\s+/).map(Number).filter((n) => !Number.isNaN(n)) as number[])
     : undefined;
+  const sizeVal = get(ATTR.size);
+  const size = sizeVal === 'small' || sizeVal === 'large' ? sizeVal : 'medium';
   return {
     filename: get(ATTR.filename) ?? 'code',
     language: (get(ATTR.language) ?? 'typescript') as CodeBlockProps['language'],
@@ -46,6 +66,20 @@ function getProps(el: HTMLElement): CodeBlockProps {
     maxHeight: get(ATTR.maxHeight) ?? undefined,
     exportImageButton: parseBool(get(ATTR.exportImageButton)) ?? false,
     highlightLines,
+    size,
+    codeFolding: parseBool(get(ATTR.codeFolding)) ?? false,
+    fullscreenButton: parseBool(get(ATTR.fullscreenButton)) ?? false,
+    title: get(ATTR.title) ?? undefined,
+    description: get(ATTR.description) ?? undefined,
+    activeLine: parseNum(get(ATTR.activeLine)),
+    startLineNumber: parseNum(get(ATTR.startLineNumber)) ?? 1,
+    showHeader: parseBool(get(ATTR.showHeader)) ?? true,
+    loading: parseBool(get(ATTR.loading)) ?? false,
+    fontFamily: get(ATTR.fontFamily) ?? undefined,
+    backgroundImage: get(ATTR.backgroundImage) ?? undefined,
+    backgroundImageOverlay: parseNum(get(ATTR.backgroundImageOverlay)) ?? undefined,
+    onCopy: () => el.dispatchEvent(new CustomEvent('wcb-copy', { bubbles: true })),
+    onLineClick: (lineNumber: number) => el.dispatchEvent(new CustomEvent('wcb-line-click', { detail: { lineNumber }, bubbles: true })),
   };
 }
 

@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type Theme =
   | 'vs-dark'
   | 'light'
@@ -9,6 +11,18 @@ export type Theme =
   | 'solarized-dark'
   | 'one-dark'
   | 'gruvbox-dark'
+  | 'tokyo-night'
+  | 'catppuccin-mocha'
+  | 'rose-pine'
+  | 'everforest'
+  | 'kanagawa'
+  | 'ayu-dark'
+  | 'material-ocean'
+  | 'horizon'
+  | 'outrun'
+  | 'forest'
+  | 'ocean'
+  | 'lavender'
   | 'auto';
 
 export type Language =
@@ -77,4 +91,11 @@ export interface CodeBlockProps {
   };
   codeFolding?: boolean;
   className?: string;
+  startLineNumber?: number;
+  showHeader?: boolean;
+  headerActions?: ReactNode;
+  loading?: boolean;
+  fontFamily?: string;
+  backgroundImage?: string;
+  backgroundImageOverlay?: number;
 }

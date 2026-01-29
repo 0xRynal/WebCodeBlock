@@ -126,7 +126,7 @@ const highlightCodeWithCursor = (
   foldContext?: FoldContext
 ): JSX.Element => {
   if (!code) return <></>;
-  const isLightTheme = theme === 'light' || theme === 'solarized-light';
+  const isLightTheme = theme === 'light' || theme === 'solarized-light' || theme === 'ocean' || theme === 'lavender';
   const cursorColor = isLightTheme ? '#586e75' : '#fff';
 
   switch (language) {
@@ -174,7 +174,7 @@ const highlightJavaScriptWithCursor = (
   foldContext?: FoldContext
 ): JSX.Element => {
   const lines = code.split('\n');
-  const isLightTheme = theme === 'light' || theme === 'solarized-light';
+  const isLightTheme = theme === 'light' || theme === 'solarized-light' || theme === 'ocean' || theme === 'lavender';
   const cursorColor = isLightTheme ? '#586e75' : '#fff';
   const foldRanges = foldContext?.foldRanges ?? [];
   const collapsedStarts = foldContext?.collapsedStarts ?? new Set<number>();
@@ -225,7 +225,7 @@ const highlightJavaScriptWithCursor = (
                 aria-label={isCollapsed ? labelUnfold : labelFold}
                 title={isCollapsed ? labelUnfold : labelFold}
               >
-                <span className="web-code-block-fold-icon" aria-hidden>{isCollapsed ? '▶' : '▼'}</span>
+                <span className="web-code-block-fold-icon" aria-hidden>{isCollapsed ? <ChevronRightIcon /> : <ChevronDownIcon />}</span>
               </button>
             )}
             {foldContext ? <span className="web-code-block-line-content">{lineContent}</span> : lineContent}
@@ -317,7 +317,7 @@ const highlightJSXWithCursor = (
   foldContext?: FoldContext
 ): JSX.Element => {
   const lines = code.split('\n');
-  const isLightTheme = theme === 'light' || theme === 'solarized-light';
+  const isLightTheme = theme === 'light' || theme === 'solarized-light' || theme === 'ocean' || theme === 'lavender';
   const cursorColor = isLightTheme ? '#586e75' : '#fff';
   const foldRanges = foldContext?.foldRanges ?? [];
   const collapsedStarts = foldContext?.collapsedStarts ?? new Set<number>();
@@ -368,7 +368,7 @@ const highlightJSXWithCursor = (
                 aria-label={isCollapsed ? labelUnfold : labelFold}
                 title={isCollapsed ? labelUnfold : labelFold}
               >
-                <span className="web-code-block-fold-icon" aria-hidden>{isCollapsed ? '▶' : '▼'}</span>
+                <span className="web-code-block-fold-icon" aria-hidden>{isCollapsed ? <ChevronRightIcon /> : <ChevronDownIcon />}</span>
               </button>
             )}
             {foldContext ? <span className="web-code-block-line-content">{lineContent}</span> : lineContent}
@@ -638,7 +638,7 @@ const highlightGenericWithCursor = (
   foldContext?: FoldContext
 ): JSX.Element => {
   const lines = code.split('\n');
-  const isLightTheme = theme === 'light' || theme === 'solarized-light';
+  const isLightTheme = theme === 'light' || theme === 'solarized-light' || theme === 'ocean' || theme === 'lavender';
   const cursorColor = isLightTheme ? '#586e75' : '#fff';
   const foldRanges = foldContext?.foldRanges ?? [];
   const collapsedStarts = foldContext?.collapsedStarts ?? new Set<number>();
@@ -689,7 +689,7 @@ const highlightGenericWithCursor = (
                 aria-label={isCollapsed ? labelUnfold : labelFold}
                 title={isCollapsed ? labelUnfold : labelFold}
               >
-                <span className="web-code-block-fold-icon" aria-hidden>{isCollapsed ? '▶' : '▼'}</span>
+                <span className="web-code-block-fold-icon" aria-hidden>{isCollapsed ? <ChevronRightIcon /> : <ChevronDownIcon />}</span>
               </button>
             )}
             {foldContext ? <span className="web-code-block-line-content">{lineContent}</span> : lineContent}
@@ -730,6 +730,13 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   palette,
   codeFolding = false,
   className = '',
+  startLineNumber = 1,
+  showHeader = true,
+  headerActions,
+  loading = false,
+  fontFamily,
+  backgroundImage,
+  backgroundImageOverlay = 0.85,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const liveRegionRef = useRef<HTMLDivElement>(null);
@@ -768,6 +775,12 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
   useEffect(() => {
     if (typingEffect && !typingComplete && !isDiffMode && code != null) {
+      const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        setDisplayedCode(code);
+        setTypingComplete(true);
+        return;
+      }
       let currentIndex = 0;
       const interval = setInterval(() => {
         if (currentIndex <= code.length) {
@@ -839,14 +852,17 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   const blockContent = (
     <div
       ref={containerRef}
-      className={`web-code-block theme-${themeClass} group wcb-size-${size} ${className} ${exporting ? 'wcb-exporting' : ''}`}
+      className={`web-code-block theme-${themeClass} group wcb-size-${size} ${className} ${exporting ? 'wcb-exporting' : ''} ${loading ? 'wcb-loading' : ''} ${backgroundImage ? 'wcb-has-bg-image' : ''}`}
       style={{
         maxHeight: isFullscreen ? undefined : effectiveMaxHeight,
+        ...(fontFamily && { '--wcb-font-family': fontFamily } as React.CSSProperties),
+        ...(backgroundImage && { '--wcb-bg-image': `url("${backgroundImage.replace(/"/g, '%22')}")`, '--wcb-bg-image-overlay': String(backgroundImageOverlay) } as React.CSSProperties),
         ...(customTheme as React.CSSProperties),
         ...paletteVars,
       }}
       role="region"
       aria-label={`Bloc de code : ${filename}`}
+      aria-busy={loading}
     >
       <div
         ref={liveRegionRef}
@@ -860,52 +876,55 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           {title}
         </div>
       )}
-      <div className="web-code-block-header">
-        <div className="web-code-block-dots">
-          <div
-            className="web-code-block-dot"
-            style={{ backgroundColor: '#ff5f56' }}
-            title="Close"
-          />
-          <div
-            className="web-code-block-dot"
-            style={{ backgroundColor: '#ffbd2e' }}
-            title="Minimize"
-          />
-          <div
-            className="web-code-block-dot"
-            style={{ backgroundColor: '#27c93f' }}
-            title="Maximize"
-          />
-        </div>
+      {showHeader && (
+        <div className="web-code-block-header">
+          <div className="web-code-block-dots">
+            <div
+              className="web-code-block-dot"
+              style={{ backgroundColor: '#ff5f56' }}
+              title="Close"
+            />
+            <div
+              className="web-code-block-dot"
+              style={{ backgroundColor: '#ffbd2e' }}
+              title="Minimize"
+            />
+            <div
+              className="web-code-block-dot"
+              style={{ backgroundColor: '#27c93f' }}
+              title="Maximize"
+            />
+          </div>
 
-        <div className="web-code-block-filename">
-          {filename}
-        </div>
+          <div className="web-code-block-filename">
+            {filename}
+          </div>
 
-        {canCollapse && (
-          <button
-            type="button"
-            className="web-code-block-collapse-btn"
-            onClick={() => setIsExpanded((v) => !v)}
-            aria-expanded={isExpanded}
-            aria-label={isExpanded ? labels.reduce : labels.expand}
-          >
-            {isExpanded ? labels.reduce : labels.expand}
-          </button>
-        )}
-        {fullscreenButton && (
-          <button
-            type="button"
-            className="web-code-block-fullscreen-btn"
-            onClick={() => setIsFullscreen((v) => !v)}
-            aria-label={isFullscreen ? labels.closeFullscreen : labels.fullscreen}
-            title={isFullscreen ? labels.closeFullscreen : labels.fullscreen}
-          >
-            {isFullscreen ? labels.closeFullscreen : labels.fullscreen}
-          </button>
-        )}
-      </div>
+          {headerActions && <div className="web-code-block-header-actions">{headerActions}</div>}
+          {canCollapse && (
+            <button
+              type="button"
+              className="web-code-block-collapse-btn"
+              onClick={() => setIsExpanded((v) => !v)}
+              aria-expanded={isExpanded}
+              aria-label={isExpanded ? labels.reduce : labels.expand}
+            >
+              {isExpanded ? labels.reduce : labels.expand}
+            </button>
+          )}
+          {fullscreenButton && (
+            <button
+              type="button"
+              className="web-code-block-fullscreen-btn"
+              onClick={() => setIsFullscreen((v) => !v)}
+              aria-label={isFullscreen ? labels.closeFullscreen : labels.fullscreen}
+              title={isFullscreen ? labels.closeFullscreen : labels.fullscreen}
+            >
+              {isFullscreen ? labels.closeFullscreen : labels.fullscreen}
+            </button>
+          )}
+        </div>
+      )}
 
       <div className="web-code-block-content">
         {exportImageButton && (
@@ -941,20 +960,20 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           </button>
         )}
 
-        {showLineNumbers && !isDiffMode && (
+        {showLineNumbers && !loading && !isDiffMode && (
           <div className={`web-code-block-line-numbers ${onLineClick ? 'wcb-line-numbers-clickable' : ''}`}>
             {(codeFolding && visibleLineIndices.length < lines.length ? visibleLineIndices : lines.map((_, i) => i)).map((index) => {
-              const lineNum = index + 1;
+              const displayNum = startLineNumber + index;
               const line = lines[index];
-              const content = <>{lineNum}</>;
+              const content = <>{displayNum}</>;
               return onLineClick ? (
                 <button
                   key={index}
                   type="button"
                   className="web-code-block-line-number"
                   style={{ minHeight: line?.trim() === '' ? '1.5rem' : 'auto' }}
-                  onClick={() => onLineClick(lineNum)}
-                  aria-label={`Ligne ${lineNum}`}
+                  onClick={() => onLineClick(displayNum)}
+                  aria-label={`Ligne ${displayNum}`}
                 >
                   {content}
                 </button>
@@ -970,24 +989,24 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             })}
           </div>
         )}
-        {showLineNumbers && isDiffMode && diffLines && (
+        {showLineNumbers && !loading && isDiffMode && diffLines && (
           <div className={`web-code-block-line-numbers ${onLineClick ? 'wcb-line-numbers-clickable' : ''}`}>
             {diffLines.map((_, index) => {
-              const lineNum = index + 1;
+              const displayNum = startLineNumber + index;
               return onLineClick ? (
                 <button
                   key={index}
                   type="button"
                   className="web-code-block-line-number"
                   style={{ minHeight: '1.5rem' }}
-                  onClick={() => onLineClick(lineNum)}
-                  aria-label={`Ligne ${lineNum}`}
+                  onClick={() => onLineClick(displayNum)}
+                  aria-label={`Ligne ${displayNum}`}
                 >
-                  {lineNum}
+                  {displayNum}
                 </button>
               ) : (
                 <div key={index} className="web-code-block-line-number" style={{ minHeight: '1.5rem' }}>
-                  {lineNum}
+                  {displayNum}
                 </div>
               );
             })}
@@ -998,8 +1017,14 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           className={`web-code-block-code ${showLineNumbers ? 'with-line-numbers' : ''} ${wrapLines ? 'wrap-lines' : ''} ${codeFolding && foldRanges.length > 0 ? 'with-fold' : ''}`}
           style={{ maxHeight: effectiveMaxHeight ? 'calc(100% - 48px)' : undefined }}
         >
-          <code className={`language-${language}`}>
-            {isDiffMode && diffLines ? (
+          <code className={`language-${language}`} style={fontFamily ? { fontFamily: 'var(--wcb-font-family)' } : undefined}>
+            {loading ? (
+              <div className="wcb-skeleton" aria-hidden>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <div key={i} className="wcb-skeleton-line" style={{ width: i === 3 ? '60%' : i === 5 ? '40%' : '90%' }} />
+                ))}
+              </div>
+            ) : isDiffMode && diffLines ? (
               <>
                 {prompt && <span className="web-code-block-prompt">{prompt}</span>}
                 {diffLines.map((d, i) => (
@@ -1066,6 +1091,18 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
   return blockContent;
 };
+
+const ChevronDownIcon: React.FC = () => (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+const ChevronRightIcon: React.FC = () => (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
 
 const CopyIcon: React.FC = () => (
   <svg 

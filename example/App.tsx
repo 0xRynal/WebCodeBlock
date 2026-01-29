@@ -7,6 +7,7 @@ import type { Theme } from '../src/types';
  */
 function App() {
   const [selectedTheme, setSelectedTheme] = useState<Theme>('vs-dark');
+  const [loadingDemo, setLoadingDemo] = useState(false);
 
   // Exemples de code pour différents langages
   const examples = {
@@ -561,13 +562,20 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 *Fait avec ❤️ par [Votre Nom](https://github.com/votrepseudo)*`,
   };
 
-  const themes: Theme[] = ['vs-dark', 'light', 'dracula', 'nord', 'github-dark', 'monokai', 'solarized-light', 'solarized-dark', 'one-dark', 'gruvbox-dark', 'auto'];
+  const themes: Theme[] = [
+    'vs-dark', 'light', 'dracula', 'nord', 'github-dark', 'monokai',
+    'solarized-light', 'solarized-dark', 'one-dark', 'gruvbox-dark',
+    'tokyo-night', 'catppuccin-mocha', 'rose-pine', 'everforest', 'kanagawa',
+    'ayu-dark', 'material-ocean', 'horizon', 'outrun', 'forest',
+    'ocean', 'lavender', 'auto',
+  ];
+  const isLightTheme = selectedTheme === 'light' || selectedTheme === 'solarized-light' || selectedTheme === 'ocean' || selectedTheme === 'lavender';
 
   return (
     <div style={{ 
       minHeight: '100vh',
-      background: selectedTheme === 'light' ? '#f8f9fa' : '#0d1117',
-      color: selectedTheme === 'light' ? '#1f2937' : '#c9d1d9',
+      background: isLightTheme ? '#f8f9fa' : '#0d1117',
+      color: isLightTheme ? '#1f2937' : '#c9d1d9',
       padding: '2rem',
       transition: 'background-color 0.3s ease'
     }}>
@@ -629,7 +637,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
         {/* Section TypeScript */}
         <section>
           <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
-            💙 TypeScript - Toutes les fonctionnalités + pliage
+            💙 TypeScript - Toutes les fonctionnalités + pliage + plein écran
           </h2>
           <CodeBlock
             filename="test.ts"
@@ -638,6 +646,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             code={examples.typescript}
             copyButton={true}
             exportImageButton={true}
+            fullscreenButton={true}
             showLineNumbers={true}
             codeFolding={true}
           />
@@ -805,9 +814,21 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
         <section>
           <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
-            🔧 Options : size, onLineClick, palette, diff
+            🔧 Options : size, onLineClick, palette, diff, startLineNumber
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>startLineNumber (extrait de fichier)</h3>
+              <CodeBlock
+                filename="app.ts"
+                language="typescript"
+                theme={selectedTheme}
+                code={`function mul(a: number, b: number) { return a * b; }
+function div(a: number, b: number) { return b !== 0 ? a / b : NaN; }`}
+                showLineNumbers={true}
+                startLineNumber={45}
+              />
+            </div>
             <div>
               <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Taille small + clic sur ligne</h3>
               <CodeBlock
@@ -847,26 +868,187 @@ export const TIMEOUT = 5000;`}
 
         <section>
           <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
+            🆕 showHeader, headerActions, loading, fontFamily
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>showHeader=false (code seul)</h3>
+              <CodeBlock
+                filename="snippet.ts"
+                language="typescript"
+                theme={selectedTheme}
+                code={`const greet = (name: string) => \`Hello, \${name}!\`;`}
+                showHeader={false}
+              />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>headerActions (bouton personnalisé)</h3>
+              <CodeBlock
+                filename="demo.tsx"
+                language="typescript"
+                theme={selectedTheme}
+                code={`export function Button() {
+  return <button>Click me</button>;
+}`}
+                headerActions={
+                  <a
+                    href="https://codesandbox.io"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontSize: '0.75rem',
+                      padding: '0.25rem 0.5rem',
+                      background: selectedTheme === 'light' ? '#e5e7eb' : '#30363d',
+                      color: 'inherit',
+                      borderRadius: '4px',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Ouvrir dans CodeSandbox
+                  </a>
+                }
+              />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>loading (skeleton)</h3>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <input
+                  type="checkbox"
+                  checked={loadingDemo}
+                  onChange={(e) => setLoadingDemo(e.target.checked)}
+                />
+                Afficher l’état chargement
+              </label>
+              <CodeBlock
+                filename="async-code.ts"
+                language="typescript"
+                theme={selectedTheme}
+                code={`// Le code s'affichera quand loading passera à false
+const data = await fetch('/api/data');
+return data.json();`}
+                loading={loadingDemo}
+              />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>fontFamily (JetBrains Mono)</h3>
+              <CodeBlock
+                filename="mono.ts"
+                language="typescript"
+                theme={selectedTheme}
+                code={`// Police personnalisée pour le code
+type User = { id: number; name: string };
+const users: User[] = [];`}
+                fontFamily="'JetBrains Mono', 'Fira Code', monospace"
+              />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>backgroundImage (image de fond + overlay)</h3>
+              <CodeBlock
+                filename="style.ts"
+                language="typescript"
+                theme="vs-dark"
+                code={`// Image en fond avec overlay pour garder le code lisible
+// backgroundImageOverlay : 0 = transparent, 1 = opaque
+const config = { theme: "dark", overlay: 0.85 };`}
+                backgroundImage="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea'/%3E%3Cstop offset='100%25' style='stop-color:%23764ba2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='600' height='400' fill='url(%23g)'/%3E%3C/svg%3E"
+                backgroundImageOverlay={0.82}
+              />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 style={{ marginBottom: '0.25rem', fontSize: '1.5rem' }}>📦 Tout en un</h2>
+          <p style={{ marginBottom: '1rem', fontSize: '0.85rem', opacity: 0.8 }}>
+            title, description, activeLine, highlightLines, wrapLines, collapsible, maxHeight, onCopy
+          </p>
+          <CodeBlock
+            filename="api.ts"
+            language="typescript"
+            theme={selectedTheme}
+            code={`export async function fetchUser(id: number) {
+  const res = await fetch(\`/api/users/\${id}\`);
+  if (!res.ok) throw new Error("Not found");
+  return res.json();
+}
+
+export async function updateUser(id: number, data: Partial<User>) {
+  const res = await fetch(\`/api/users/\${id}\`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}`}
+            title="Exemple API client"
+            description="Fonctions fetch avec gestion d’erreurs."
+            activeLine={3}
+            highlightLines={[2, 5, 10]}
+            wrapLines={true}
+            collapsible={true}
+            maxHeight="220px"
+            showLineNumbers={true}
+            onCopy={() => window.console?.log('Copié !')}
+            copyButton={true}
+          />
+        </section>
+
+        <section>
+          <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
+            💻 Style terminal (prompt)
+          </h2>
+          <CodeBlock
+            filename="run.sh"
+            language="bash"
+            theme={selectedTheme}
+            code={`npm install
+npm run build
+npm run deploy`}
+            prompt="$ "
+            showLineNumbers={true}
+          />
+        </section>
+
+        <section>
+          <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
             🎭 Comparaison de thèmes
           </h2>
+          <p style={{ marginBottom: '1rem', opacity: 0.85, fontSize: '0.9rem' }}>
+            <strong>auto</strong> suit la préférence système (<code>prefers-color-scheme</code>) : en mode sombre il affiche les mêmes couleurs que <strong>vs-dark</strong>, en mode clair les mêmes que <strong>light</strong>.
+          </p>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
             gap: '2rem'
           }}>
             {themes.map((theme) => (
-              <CodeBlock
-                key={theme}
-                filename={`example-${theme}.ts`}
-                language="typescript"
-                theme={theme}
-                code={`// Thème: ${theme}
+              <div key={theme} style={{ position: 'relative' }}>
+                {theme === 'auto' && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '-0.5rem',
+                      right: 0,
+                      fontSize: '0.7rem',
+                      opacity: 0.8,
+                      zIndex: 1,
+                    }}
+                  >
+                    = vs-dark (sombre) ou light (clair)
+                  </span>
+                )}
+                <CodeBlock
+                  filename={`example-${theme}.ts`}
+                  language="typescript"
+                  theme={theme}
+                  code={`// Thème: ${theme}
 function hello() {
   console.log("Hello!");
 }`}
-                copyButton={true}
-                exportImageButton={true}
-              />
+                  copyButton={true}
+                  exportImageButton={true}
+                />
+              </div>
             ))}
           </div>
         </section>

@@ -1,6 +1,6 @@
 {
   "name": "webcodeblock",
-  "version": "2.4.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "Un composant React élégant pour afficher des blocs de code stylisés façon VS Code",
   "main": "dist/web-code-block.cjs.js",
@@ -43,7 +43,6 @@
   ],
   "author": "0xRynal",
   "license": "MIT",
-  "readme": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xRynal/WebCodeBlock.git"

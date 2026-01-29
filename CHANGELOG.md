@@ -40,6 +40,37 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [2.4.0] - 2026-01-29
+
+### Ajouté
+- **12 nouveaux thèmes** : tokyo-night, catppuccin-mocha, rose-pine, everforest, kanagawa, ayu-dark, material-ocean, horizon, outrun, forest, ocean, lavender
+- **backgroundImage** : image de fond pour la zone code (URL)
+- **backgroundImageOverlay** : opacité de l’overlay noir (0–1, défaut 0.85) pour garder le code lisible
+- **Web Component** : attributs background-image, background-image-overlay
+
+---
+
+## [2.3.0] - 2026-01-29
+
+### Ajouté
+- **showHeader** : masquer la barre (fichier + boutons) pour un affichage code seul
+- **headerActions** : slot ReactNode pour boutons personnalisés dans la barre (ex. « Ouvrir dans CodeSandbox »)
+- **loading** : état chargement avec skeleton animé (respecte prefers-reduced-motion)
+- **fontFamily** : police du code (ex. `'JetBrains Mono'`)
+- **Web Component** : attributs show-header, loading, font-family
+
+---
+
+## [2.2.0] - 2026-01-29
+
+### Ajouté
+- **startLineNumber** : numéro de la première ligne affichée (extrait de fichier, ex. lignes 45–52)
+- **prefers-reduced-motion** : l’effet machine à écrire est désactivé si l’utilisateur a demandé moins d’animations
+- **Web Component** : attributs size, code-folding, fullscreen-button, title, description, active-line, start-line-number
+- **Web Component** : événements personnalisés `wcb-copy` et `wcb-line-click` (detail: `{ lineNumber }`)
+
+---
+
 ## [2.0.0] - 2026-01-28
 
 ### Ajouté
