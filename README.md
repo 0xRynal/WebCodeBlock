@@ -1,6 +1,6 @@
 # webcodeblock
 
-[![npm version](https://badge.fury.io/js/webcodeblock.svg)](https://www.npmjs.com/package/webcodeblock)
+[![npm version](https://img.shields.io/npm/v/webcodeblock)](https://www.npmjs.com/package/webcodeblock)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Composant React pour afficher des blocs de code façon VS Code : coloration syntaxique, thèmes, copie, export PNG, pliage de code, Web Component.
