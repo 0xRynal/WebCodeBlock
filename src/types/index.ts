@@ -1,24 +1,29 @@
-/**
- * Thèmes disponibles pour le CodeBlock
- */
-export type Theme = 'vs-dark' | 'light' | 'dracula' | 'nord';
+export type Theme =
+  | 'vs-dark'
+  | 'light'
+  | 'dracula'
+  | 'nord'
+  | 'github-dark'
+  | 'monokai'
+  | 'solarized-light'
+  | 'solarized-dark'
+  | 'one-dark'
+  | 'gruvbox-dark'
+  | 'auto';
 
-/**
- * Langages supportés par Prism.js
- */
-export type Language = 
-  | 'javascript' 
-  | 'typescript' 
-  | 'jsx' 
+export type Language =
+  | 'javascript'
+  | 'typescript'
+  | 'jsx'
   | 'tsx'
-  | 'html' 
-  | 'css' 
-  | 'python' 
-  | 'java' 
-  | 'go' 
-  | 'rust' 
-  | 'c' 
-  | 'cpp' 
+  | 'html'
+  | 'css'
+  | 'python'
+  | 'java'
+  | 'go'
+  | 'rust'
+  | 'c'
+  | 'cpp'
   | 'csharp'
   | 'php'
   | 'ruby'
@@ -27,41 +32,49 @@ export type Language =
   | 'yaml'
   | 'markdown'
   | 'sql'
-  | string; // Permet d'autres langages Prism
+  | string;
 
-/**
- * Props du composant CodeBlock
- */
 export interface CodeBlockProps {
-  /** Nom du fichier à afficher dans l'en-tête */
   filename: string;
-  
-  /** Langage pour la coloration syntaxique */
   language: Language;
-  
-  /** Thème visuel du bloc de code */
   theme?: Theme;
-  
-  /** Code source à afficher */
-  code: string;
-  
-  /** Afficher un bouton pour copier le code */
+  code?: string;
   copyButton?: boolean;
-  
-  /** Activer l'effet de machine à écrire */
   typingEffect?: boolean;
-  
-  /** Vitesse de l'effet typing (ms par caractère) */
   typingSpeed?: number;
-  
-  /** Afficher les numéros de ligne */
   showLineNumbers?: boolean;
-  
-  /** Hauteur maximale du bloc (avec scroll si dépassé) */
   maxHeight?: string;
-  
-  /** Classe CSS personnalisée */
+  highlightLines?: number[] | string;
+  wrapLines?: boolean;
+  collapsible?: boolean;
+  prompt?: string;
+  customTheme?: Record<string, string>;
+  diff?: { oldCode: string; newCode: string };
+  exportImageButton?: boolean;
+  title?: string;
+  description?: string;
+  activeLine?: number;
+  onCopy?: () => void;
+  labels?: {
+    copy?: string;
+    copied?: string;
+    expand?: string;
+    reduce?: string;
+    exportImage?: string;
+    fullscreen?: string;
+    closeFullscreen?: string;
+    fold?: string;
+    unfold?: string;
+  };
+  fullscreenButton?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  onLineClick?: (lineNumber: number) => void;
+  palette?: {
+    bg?: string;
+    header?: string;
+    text?: string;
+    border?: string;
+  };
+  codeFolding?: boolean;
   className?: string;
-  
 }
-

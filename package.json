@@ -1,25 +1,32 @@
 {
   "name": "webcodeblock",
-  "version": "1.0.6",
+  "version": "2.1.2",
   "type": "module",
   "description": "Un composant React élégant pour afficher des blocs de code stylisés façon VS Code",
   "main": "dist/web-code-block.cjs.js",
   "module": "dist/web-code-block.es.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/web-code-block.es.js",
-      "require": "./dist/web-code-block.cjs.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/web-code-block.cjs.js"
     },
-    "./styles": "./dist/style.css"
+    "./web-component": {
+      "types": "./dist/web-component.d.ts",
+      "import": "./dist/web-code-block-wc.es.js",
+      "require": "./dist/web-code-block-wc.cjs.js"
+    },
+    "./styles": "./dist/webcodeblock.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && vite build --config vite.wc.config.ts",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
     "publish:npm": "npm publish"
@@ -30,12 +37,13 @@
     "codeframe",
     "syntax-highlighting",
     "vscode",
-    "prism",
+    "web-component",
     "typescript",
     "component"
   ],
   "author": "0xRynal",
   "license": "MIT",
+  "readme": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xRynal/WebCodeBlock.git"
@@ -45,21 +53,21 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
-    "prismjs": "^1.29.0"
+    "html2canvas": "^1.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
-    "@types/prismjs": "^1.26.3",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
+    "baseline-browser-mapping": "^2.9.19",
     "postcss": "^8.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^3.3.6",
     "typescript": "^5.3.3",
-    "vite": "^5.0.8",
-    "vite-plugin-dts": "^3.6.4"
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

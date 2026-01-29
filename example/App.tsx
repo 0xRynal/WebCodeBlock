@@ -561,7 +561,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 *Fait avec ❤️ par [Votre Nom](https://github.com/votrepseudo)*`,
   };
 
-  const themes: Theme[] = ['vs-dark', 'light', 'dracula', 'nord'];
+  const themes: Theme[] = ['vs-dark', 'light', 'dracula', 'nord', 'github-dark', 'monokai', 'solarized-light', 'solarized-dark', 'one-dark', 'gruvbox-dark', 'auto'];
 
   return (
     <div style={{ 
@@ -629,7 +629,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
         {/* Section TypeScript */}
         <section>
           <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
-            💙 TypeScript - Toutes les fonctionnalités
+            💙 TypeScript - Toutes les fonctionnalités + pliage
           </h2>
           <CodeBlock
             filename="test.ts"
@@ -637,7 +637,9 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.typescript}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
+            codeFolding={true}
           />
         </section>
 
@@ -652,6 +654,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.javascript}
             copyButton={true}
+            exportImageButton={true}
           />
         </section>
 
@@ -666,6 +669,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.jsx}
             copyButton={true}
+            exportImageButton={true}
             typingEffect={true}
             typingSpeed={50}
           />
@@ -682,6 +686,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.html}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -697,6 +702,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.css}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -712,6 +718,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.python}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -727,6 +734,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.json}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -742,6 +750,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.yaml}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -757,6 +766,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.sql}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -772,6 +782,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.bash}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
@@ -787,11 +798,53 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
             theme={selectedTheme}
             code={examples.markdown}
             copyButton={true}
+            exportImageButton={true}
             showLineNumbers={true}
           />
         </section>
 
-        {/* Comparaison de thèmes */}
+        <section>
+          <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
+            🔧 Options : size, onLineClick, palette, diff
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Taille small + clic sur ligne</h3>
+              <CodeBlock
+                filename="utils.ts"
+                language="typescript"
+                theme={selectedTheme}
+                code={`function add(a: number, b: number) { return a + b; }
+function mul(a: number, b: number) { return a * b; }`}
+                showLineNumbers={true}
+                size="small"
+                onLineClick={(n) => window.console?.log('Ligne', n)}
+              />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Palette personnalisée</h3>
+              <CodeBlock
+                filename="config.ts"
+                language="typescript"
+                theme="vs-dark"
+                code={`export const API_URL = "https://api.example.com";
+export const TIMEOUT = 5000;`}
+                palette={{ bg: '#0d1117', header: '#161b22', text: '#c9d1d9', border: '#30363d' }}
+              />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Mode diff</h3>
+              <CodeBlock
+                filename="patch.ts"
+                language="typescript"
+                theme={selectedTheme}
+                diff={{ oldCode: 'const x = 1;\nconst y = 2;', newCode: 'const x = 10;\nconst y = 2;\nconst z = 3;' }}
+                showLineNumbers={true}
+              />
+            </div>
+          </div>
+        </section>
+
         <section>
           <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>
             🎭 Comparaison de thèmes
@@ -812,6 +865,7 @@ function hello() {
   console.log("Hello!");
 }`}
                 copyButton={true}
+                exportImageButton={true}
               />
             ))}
           </div>

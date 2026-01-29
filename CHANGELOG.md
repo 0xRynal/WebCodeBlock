@@ -7,7 +7,7 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ## [1.0.0] - 2025-10-11
 
-### 🎉 Première version
+### Première version
 
 #### Ajouté
 - Composant `CodeBlock` avec support de React
@@ -31,30 +31,46 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 - Bash, JSON, YAML, Markdown, SQL
 
 #### Fonctionnalités
-- ✅ Affichage élégant du code
-- ✅ Personnalisation des thèmes
-- ✅ Responsive design
-- ✅ Animations fluides
-- ✅ Copie en un clic
-- ✅ TypeScript types inclus
-- ✅ Zero configuration
+- Affichage du code avec thèmes
+- Responsive design
+- Animations fluides
+- Copie en un clic
+- TypeScript types inclus
+- Zero configuration
 
 ---
 
-## [Unreleased]
+## [2.0.0] - 2026-01-28
 
-### À venir
-- Support de plus de thèmes (GitHub Dark, Monokai)
-- Version Web Component
-- Support de highlight de lignes spécifiques
-- Mode diff pour comparer du code
-- Export en image (screenshot)
-- Plugin pour les frameworks (Vue, Svelte, Angular)
+### Ajouté
+- Thèmes **Solarized Light**, **Solarized Dark**, **One Dark**, **Gruvbox Dark**
+- Thème **Light** retravaillé : fond #f6f8fa, contraste renforcé, couleurs de syntaxe dédiées
+- **prompt** : style terminal avec préfixe (ex: `"$ "`, `"> "`)
+- **customTheme** : variables CSS personnalisées pour surcharger le thème
+- **diff** : mode diff avec `{ oldCode, newCode }` (lignes − rouge / + vert)
+- **exportImageButton** : bouton pour exporter le bloc en PNG (html2canvas, chargé à la demande)
+- **Web Component** : entrée `webcodeblock/web-component`, custom element `<web-code-block>`
+- **Vue / Svelte / Angular** : utilisation via le Web Component
+- **Prism retiré** : coloration 100 % intégrée, bundle plus léger
+- **title** / **description** : titre et description optionnels
+- **activeLine** : ligne mise en avant (bordure bleue, fond léger)
+- **onCopy** : callback après copie réussie
+- **labels** : libellés i18n (copy, copied, expand, reduce, exportImage, fullscreen, closeFullscreen, fold, unfold)
+- **fullscreenButton** : bouton modal plein écran
+- **size** : taille de police (`'small' | 'medium' | 'large'`)
+- **onLineClick** : callback au clic sur un numéro de ligne (1-based)
+- **palette** : surcharge couleurs thème (bg, header, text, border)
+- **Accessibilité** : aria-live « Copié », role region, aria-label, clavier
+- **codeFolding** : pliage de code façon IDE (replier/déplier blocs), ligne de fermeture `}` visible quand replié
 
+---
 
+## [1.1.0] - 2026-01-28
 
-
-
-
-
-
+### Ajouté
+- Thèmes **GitHub Dark** et **Monokai**
+- Thème **auto** : suit la préférence système (`prefers-color-scheme`)
+- **highlightLines** : surligner des lignes (`[1, 3, 5]` ou `"1-3, 5"`)
+- **wrapLines** : retour à la ligne des lignes longues
+- **collapsible** : bouton Réduire/Agrandir quand `maxHeight` est défini
+- Accessibilité : `role="region"`, `aria-label` sur le bloc et le bouton copier, support clavier (Enter/Espace sur copier)
