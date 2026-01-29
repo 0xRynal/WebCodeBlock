@@ -1,6 +1,6 @@
 {
   "name": "webcodeblock",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "type": "module",
   "description": "Un composant React élégant pour afficher des blocs de code stylisés façon VS Code",
   "main": "dist/web-code-block.cjs.js",
